@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stray Kids Shipping Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0d0f12; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #f0f0f0; display: flex; flex-direction: column; align-items: center; padding: 20px 10px; min-height: 100vh; }
+        .wrapper { width: 100%; max-width: 1000px; display: flex; flex-direction: column; align-items: center; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .header h1 { font-size: 28px; font-weight: 900; letter-spacing: 2px; color: #ff2a4b; text-transform: uppercase; text-shadow: 0 0 10px rgba(255,42,75,0.3); }
+        .header p { font-size: 13px; color: #888; margin-top: 5px; }
+        
+        .tab-wrap { display: flex; gap: 8px; background: #1a1d24; padding: 5px; border-radius: 30px; margin-bottom: 20px; border: 1px solid #2a2e39; }
+        .tab-btn { border: none; background: transparent; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; color: #aaa; cursor: pointer; transition: .2s; }
+        .tab-btn.active { background: #ff2a4b; color: #fff; }
+        
+        .capture-area { background: #14171d; border-radius: 16px; padding: 25px; border: 1px solid #262a36; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; width: 900px; max-width: 100%; }
+        
+        .table-wrap { overflow-x: auto; margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        th, td { height: 60px; text-align: center; font-size: 13px; font-weight: 700; border: 1px solid #262a36; padding: 2px; }
+        th { background: #ff2a4b; color: #fff; font-size: 14px; text-shadow: 0 1px 2px rgba(0,0,0,0.3); cursor: pointer; user-select: none; }
+        th:first-child { width: 110px; background: #1f232d; color: #ff2a4b; }
+        td { background: #1a1d24; color: #ddd; cursor: pointer; transition: transform 0.1s, background 0.2s; word-break: break-word; }
+        td:hover { transform: scale(1.03); z-index: 2; position: relative; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+        td.self-pair { background: #12141a; color: #555; }
+
+        .legend { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #222632; }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #bbb; }
+        .color-dot { width: 16px; height: 16px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); }
+
+        .controls { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
+        button.action-btn { background: #222632; color: #fff; border: 1px solid #333848; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: .2s; font-size: 13px; }
+        button.action-btn:hover { background: #2c3142; border-color: #ff2a4b; }
+        button.primary { background: #ff2a4b; border-color: #ff2a4b; }
+        button.primary:hover { background: #e01f3e; }
+
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 999; backdrop-filter: blur(4px); }
+        .modal.hidden { display: none; }
+        .modal-box { background: #1a1d24; border: 1px solid #333848; border-radius: 16px; padding: 25px; width: 340px; text-align: center; }
+        .modal-title { font-size: 18px; font-weight: 800; color: #ff2a4b; margin-bottom: 15px; }
+        .option-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+        .option-card { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 8px; background: #222632; cursor: pointer; transition: .2s; border: 1px solid transparent; }
+        .option-card:hover { border-color: #ff2a4b; transform: translateY(-2px); }
+        .option-card .color-dot { width: 28px; height: 28px; }
+        .option-card span { font-size: 11px; color: #ccc; font-weight: 600; }
+        .close-btn { background: transparent; border: none; color: #888; font-size: 13px; cursor: pointer; margin-top: 10px; font-weight: 600; }
+        .close-btn:hover { color: #fff; }
+        
+        .watermark { text-align: center; font-size: 11px; color: #555; margin-top: 15px; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="header">
+        <h1>Stray Kids Shipping Chart</h1>
+        <p>Click any cell to set preference / Click member header to hide row or column</p>
+    </div>
+
+    <div class="capture-area" id="captureArea">
+        <div class="table-wrap">
+            <table id="chartTable"></table>
+        </div>
+        <div class="legend" id="legend"></div>
+        <div class="watermark">SKZ Pairing Matrix • Created with Gemini</div>
+    </div>
+
+    <div class="controls">
+        <button class="action-btn primary" id="saveBtn">📥 Save Image</button>
+        <button class="action-btn" id="resetBtn">🔄 Reset All</button>
+    </div>
+</div>
+
+<div id="modal" class="modal hidden">
+    <div class="modal-box">
+        <div id="modalTitle" class="modal-title">Select Color</div>
+        <div id="optionGrid" class="option-grid"></div>
+        <button id="closeModal" class="close-btn">Close Window</button>
+    </div>
+</div>
+
+<script>
+const MEMBERS = [
+    { id: "bangchan", name: "Bang Chan" },
+    { id: "leeknow",  name: "Lee Know" },
+    { id: "changbin", name: "Changbin" },
+    { id: "hyunjin",  name: "Hyunjin" },
+    { id: "han",      name: "HAN" },
+    { id: "felix",    name: "Felix" },
+    { id: "seungmin", name: "Seungmin" },
+    { id: "ien",      name: "I.N" }
+];
+
+const PAIR_NAMES = {
+    "bangchan-bangchan": "Bang Chan",
+    "bangchan-leeknow": "Banginho",
+    "bangchan-changbin": "ChanBin",
+    "bangchan-hyunjin": "ChanHyun",
+    "bangchan-han": "ChanHan",
+    "bangchan-felix": "ChanLix",
+    "bangchan-seungmin": "ChanMin",
+    "bangchan-ien": "ChanIn",
+
+    "leeknow-bangchan": "MinChan",
+    "leeknow-leeknow": "Lee Know",
+    "leeknow-changbin": "MinBin",
+    "leeknow-hyunjin": "KnowHyun",
+    "leeknow-han": "MinSung",
+    "leeknow-felix": "MinLix",
+    "leeknow-seungmin": "KnowMin",
+    "leeknow-ien": "KnowIn",
+
+    "changbin-bangchan": "BinChan",
+    "changbin-leeknow": "ChangKnow",
+    "changbin-changbin": "Changbin",
+    "changbin-hyunjin": "ChangJin",
+    "changbin-han": "BinSung",
+    "changbin-felix": "ChangLix",
+    "changbin-seungmin": "BinSeung",
+    "changbin-ien": "BinIn",
+
+    "hyunjin-bangchan": "HyunChan",
+    "hyunjin-leeknow": "HyunHo",
+    "hyunjin-changbin": "HyuniBini",
+    "hyunjin-hyunjin": "Hyunjin",
+    "hyunjin-han": "HyunSung",
+    "hyunjin-felix": "HyunLix",
+    "hyunjin-seungmin": "HyunMin",
+    "hyunjin-ien": "HyunIn",
+
+    "han-bangchan": "HanChan",
+    "han-leeknow": "HanKnow",
+    "han-changbin": "HanBin",
+    "han-hyunjin": "HanHyun",
+    "han-han": "HAN",
+    "han-felix": "HanLix",
+    "han-seungmin": "HanSeung",
+    "han-ien": "HanIn",
+
+    "felix-bangchan": "LixChan",
+    "felix-leeknow": "LixKnow",
+    "felix-changbin": "LixBin",
+    "felix-hyunjin": "LixHyun",
+    "felix-han": "LixHan",
+    "felix-felix": "Felix",
+    "felix-seungmin": "LixSeung",
+    "felix-ien": "LixIn",
+
+    "seungmin-bangchan": "SeungChan",
+    "seungmin-leeknow": "SeungKnow",
+    "seungmin-changbin": "SeungBin",
+    "seungmin-hyunjin": "SeungJin",
+    "seungmin-han": "SeungSung",
+    "seungmin-felix": "SeungLix",
+    "seungmin-seungmin": "Seungmin",
+    "seungmin-ien": "SeungIn",
+
+    "ien-bangchan": "JeongChan",
+    "ien-leeknow": "JeongHo",
+    "ien-changbin": "JeongChang",
+    "ien-hyunjin": "YangHyun",
+    "ien-han": "JeongSung",
+    "ien-felix": "JeongLix",
+    "ien-seungmin": "YangSeung",
+    "ien-ien": "I.N"
+};
+
+const OPTIONS = [
+    { name: "OTP", color: "#ff80ab" },
+    { name: "Like", color: "#ffab91" },
+    { name: "Soft spot", color: "#ffe082" },
+    { name: "Curious", color: "#a5d6a7" },
+    { name: "Neutral", color: "#80deea" },
+    { name: "Dislike", color: "#90caf9" },
+    { name: "Avoid", color: "#b0bec5" }
+];
+
+let chartData = {};
+let currentKey = null;
+
+function renderTable() {
+    const table = document.getElementById("chartTable");
+    table.innerHTML = "";
+
+    const headRow = document.createElement("tr");
+    headRow.appendChild(document.createElement("th"));
+
+    MEMBERS.forEach(m => {
+        const th = document.createElement("th");
+        th.textContent = m.name;
+        headRow.appendChild(th);
+    });
+    table.appendChild(headRow);
+
+    MEMBERS.forEach(r => {
+        const tr = document.createElement("tr");
+        const rTh = document.createElement("th");
+        rTh.textContent = r.name;
+        tr.appendChild(rTh);
+
+        MEMBERS.forEach(c => {
+            const td = document.createElement("td");
+            const key = `${r.id}-${c.id}`;
+            td.textContent = PAIR_NAMES[key] || "";
+            if (r.id === c.id) td.classList.add("self-pair");
+
+            if (chartData[key]) {
+                td.style.backgroundColor = chartData[key];
+                td.style.color = "#000";
+            }
+
+            td.onclick = () => openModal(key, PAIR_NAMES[key]);
+            tr.appendChild(td);
+        });
+        table.appendChild(tr);
+    });
+}
+
+function renderLegend() {
+    const legend = document.getElementById("legend");
+    legend.innerHTML = "";
+    OPTIONS.forEach(opt => {
+        const item = document.createElement("div");
+        item.className = "legend-item";
+        item.innerHTML = `<span class="color-dot" style="background:${opt.color}"></span>${opt.name}`;
+        legend.appendChild(item);
+    });
+}
+
+function openModal(key, title) {
+    currentKey = key;
+    document.getElementById("modalTitle").textContent = title;
+    const grid = document.getElementById("optionGrid");
+    grid.innerHTML = "";
+
+    OPTIONS.forEach(opt => {
+        const card = document.createElement("div");
+        card.className = "option-card";
+        card.innerHTML = `<span class="color-dot" style="background:${opt.color}"></span><span>${opt.name}</span>`;
+        card.onclick = () => {
+            chartData[currentKey] = opt.color;
+            renderTable();
+            closeModal();
+        };
+        grid.appendChild(card);
+    });
+
+    const clearCard = document.createElement("div");
+    clearCard.className = "option-card";
+    clearCard.innerHTML = `<span style="font-size:18px;">🗑️</span><span>Clear</span>`;
+    clearCard.onclick = () => {
+        delete chartData[currentKey];
+        renderTable();
+        closeModal();
+    };
+    grid.appendChild(clearCard);
+
+    document.getElementById("modal").classList.remove("hidden");
+}
+
+function closeModal() {
+    document.getElementById("modal").classList.add("hidden");
+}
+
+document.getElementById("closeModal").onclick = closeModal;
+document.getElementById("resetBtn").onclick = () => {
+    if (confirm("Reset all selections?")) {
+        chartData = {};
+        renderTable();
+    }
+};
+
+document.getElementById("saveBtn").onclick = async () => {
+    const area = document.getElementById("captureArea");
+    const canvas = await html2canvas(area, { backgroundColor: "#14171d", scale: 3 });
+    const link = document.createElement("a");
+    link.download = "SKZ_Shipping_Chart.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+};
+
+renderTable();
+renderLegend();
+</script>
+</body>
+</html>
