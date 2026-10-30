@@ -3,88 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Stray Kids Shipping Chart</title>
+    <title>Stray Kids Chart</title>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0d0f12; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #f0f0f0; display: flex; flex-direction: column; align-items: center; padding: 20px 10px; min-height: 100vh; }
-        .wrapper { width: 100%; max-width: 1000px; display: flex; flex-direction: column; align-items: center; }
-        .header { text-align: center; margin-bottom: 20px; }
-        .header h1 { font-size: 28px; font-weight: 900; letter-spacing: 2px; color: #ff2a4b; text-transform: uppercase; text-shadow: 0 0 10px rgba(255,42,75,0.3); }
-        .header p { font-size: 13px; color: #888; margin-top: 5px; }
-        
-        .tab-wrap { display: flex; gap: 8px; background: #1a1d24; padding: 5px; border-radius: 30px; margin-bottom: 20px; border: 1px solid #2a2e39; }
-        .tab-btn { border: none; background: transparent; padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 700; color: #aaa; cursor: pointer; transition: .2s; }
-        .tab-btn.active { background: #ff2a4b; color: #fff; }
-        
-        .capture-area { background: #14171d; border-radius: 16px; padding: 25px; border: 1px solid #262a36; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; width: 900px; max-width: 100%; }
-        
-        .table-wrap { overflow-x: auto; margin-top: 10px; }
-        table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-        th, td { height: 60px; text-align: center; font-size: 13px; font-weight: 700; border: 1px solid #262a36; padding: 2px; }
-        th { background: #ff2a4b; color: #fff; font-size: 14px; text-shadow: 0 1px 2px rgba(0,0,0,0.3); cursor: pointer; user-select: none; }
-        th:first-child { width: 110px; background: #1f232d; color: #ff2a4b; }
-        td { background: #1a1d24; color: #ddd; cursor: pointer; transition: transform 0.1s, background 0.2s; word-break: break-word; }
-        td:hover { transform: scale(1.03); z-index: 2; position: relative; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
-        td.self-pair { background: #12141a; color: #555; }
-
-        .legend { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #222632; }
-        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #bbb; }
-        .color-dot { width: 16px; height: 16px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); }
-
-        .controls { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
-        button.action-btn { background: #222632; color: #fff; border: 1px solid #333848; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: .2s; font-size: 13px; }
-        button.action-btn:hover { background: #2c3142; border-color: #ff2a4b; }
-        button.primary { background: #ff2a4b; border-color: #ff2a4b; }
-        button.primary:hover { background: #e01f3e; }
-
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 999; backdrop-filter: blur(4px); }
-        .modal.hidden { display: none; }
-        .modal-box { background: #1a1d24; border: 1px solid #333848; border-radius: 16px; padding: 25px; width: 340px; text-align: center; }
-        .modal-title { font-size: 18px; font-weight: 800; color: #ff2a4b; margin-bottom: 15px; }
-        .option-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
-        .option-card { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 8px; background: #222632; cursor: pointer; transition: .2s; border: 1px solid transparent; }
-        .option-card:hover { border-color: #ff2a4b; transform: translateY(-2px); }
-        .option-card .color-dot { width: 28px; height: 28px; }
-        .option-card span { font-size: 11px; color: #ccc; font-weight: 600; }
-        .close-btn { background: transparent; border: none; color: #888; font-size: 13px; cursor: pointer; margin-top: 10px; font-weight: 600; }
-        .close-btn:hover { color: #fff; }
-        
-        .watermark { text-align: center; font-size: 11px; color: #555; margin-top: 15px; font-weight: 600; }
+        body { background: #ffffff; font-family: "Pretendard", "Noto Sans KR", sans-serif; color: #222; }
+        .wrapper { width: 100%; min-height: 100vh; padding: 32px 0 28px; display: flex; flex-direction: column; align-items: center; }
+        .tab-wrap { display: flex; gap: 8px; background: #f0f0f0; padding: 6px; border-radius: 999px; margin-bottom: 18px; }
+        .tab-btn { border: none; background: transparent; padding: 10px 22px; border-radius: 999px; font-size: 15px; font-weight: 800; color: #888888; cursor: pointer; transition: .2s; }
+        .tab-btn.active { background: #1a1a1a; color: #fff; }
+        .scale-wrap { margin: 0 auto; overflow: hidden; position: relative; }
+        .capture-area { width: 1680px; margin: 0 auto; padding: 56px 88px 34px; background: #fff; border-radius: 24px; box-shadow: 0 10px 40px rgba(0, 0, 0, .08); transform-origin: top left; }
+        .logo { display: block; width: 320px; height: auto; margin: 0 auto 16px; }
+        h1 { text-align: center; font-size: 34px; line-height: 1.15; font-weight: 900; color: #1a1a1a; margin: 12px 0 38px; }
+        .chart-date { display: inline-block; margin-left: 10px; font-size: 16px; font-weight: 700; color: #999999; vertical-align: middle; }
+        .guide-list { text-align: center; margin: 0 0 18px; }
+        .guide-list p { margin: 0; color: #999; font-size: 16px; font-weight: 600; line-height: 1.7; }
+        .table-wrap { position: relative; margin-top: 0; }
+        .table-nav { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 8px; }
+        .nav-btn { width: 32px; height: 32px; border-radius: 50%; border: none; background: #f0f0f0; color: #1a1a1a; font-size: 13px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: .15s; }
+        .nav-btn:hover:not(:disabled) { background: #bf1c2d; color: #fff; }
+        .nav-btn:disabled { opacity: .35; cursor: default; }
+        table { width: 100%; border-collapse: collapse; table-layout: fixed; overflow: hidden; border-radius: 16px; }
+        th { background: #bf1c2d; color: #fff; height: 82px; font-size: 22px; font-weight: 800; border: 1px solid rgba(26, 26, 26, .35); padding: 0 4px; white-space: normal; word-break: keep-all; overflow-wrap: break-word; line-height: 1.15; }
+        th:first-child { width: 155px; }
+        .clickable-header { cursor: pointer; transition: .15s; }
+        .clickable-header:hover { background: #8f1521; }
+        td { height: 82px; text-align: center; font-size: 20px; font-weight: 700; background: #fff; color: #1a1a1a; border: 1px solid #e2e2e2; cursor: pointer; transition: .15s; padding: 0 4px; white-space: normal; word-break: keep-all; overflow-wrap: break-word; line-height: 1.15; }
+        td:hover { transform: scale(1.025); position: relative; z-index: 2; }
+        .legend { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 24px; margin-top: 25px; }
+        .legend-item { display: flex; align-items: center; gap: 9px; font-size: 22px; font-weight: 700; }
+        .color { width: 27px; height: 27px; border-radius: 50%; border: 2px solid #d8d8d8; }
+        .color.dashed { border-style: dashed; border-color: #bbb; background: #fff !important; }
+        .capture-id-bottom { display: block; text-align: center; margin: 26px 0 0; color: #bbb; font-size: 14px; font-weight: 600; }
+        .button-wrap { display: flex; justify-content: center; gap: 18px; margin-top: 22px; }
+        button { border: none; border-radius: 14px; font-size: 21px; font-weight: 800; cursor: pointer; transition: .2s; }
+        #saveBtn, #resetBtn { display: flex; align-items: center; justify-content: center; gap: 8px; width: auto; height: 48px; padding: 0 26px; border-radius: 999px; font-size: 16px; }
+        #saveBtn { background: #1a1a1a; color: #fff; }
+        #resetBtn { background: #fff; color: #bf1c2d; border: 1.5px solid #bf1c2d; }
+        #resetBtn:hover { background: #fdf0f1; }
+        .date-toggle-wrap { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 8px 22px; margin-top: 20px; }
+        .date-toggle { display: flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 700; color: #777; cursor: pointer; user-select: none; }
+        .date-toggle input { width: 17px; height: 17px; accent-color: #bf1c2d; cursor: pointer; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; justify-content: center; align-items: center; z-index: 999; }
+        .hidden { display: none !important; }
+        .modal-box { width: 440px; background: #fff; border-radius: 24px; padding: 34px 26px 26px; position: relative; box-shadow: 0 18px 50px rgba(0,0,0,.18); }
+        .close-btn { position: absolute; top: 8px; right: 10px; width: 40px; height: 40px; background: none !important; border: none; font-size: 34px; cursor: pointer; color: #555; }
+        .modal-title { text-align: center; font-size: 21px; font-weight: 900; color: #1a1a1a; margin-bottom: 22px; }
+        .option-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 10px; }
+        .option-card { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 8px 2px; border-radius: 14px; cursor: pointer; transition: .15s; }
+        .option-card:hover { background: #f4f4f4; }
+        .option-dot { display: inline-block; width: 46px; height: 46px; border-radius: 50%; border: 2px solid #e2e2e2; }
+        .option-dot.dashed { border-style: dashed; border-color: #bbb; background: #fff !important; }
+        .option-label { font-size: 12.5px; font-weight: 700; color: #333; text-align: center; }
+        .clear-card .option-dot { display: flex; align-items: center; justify-content: center; background: #f3f3f3 !important; font-size: 20px; }
+        .save-box { width: 620px; max-height: 92vh; overflow: auto; background: #fff; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 18px 50px rgba(0,0,0,.18); }
+        .save-box h2 { font-size: 32px; line-height: 1.25; }
+        .save-box p { font-size: 18px; color: #777; margin: 8px 0 20px; }
+        #previewImage { display: block; width: 100%; height: auto; margin: 18px auto 20px; border-radius: 12px; }
+        #closeSaveModal { width: 180px; background: #1a1a1a; color: #fff; padding: 10px 0; }
+        @media (max-width: 768px) {
+            .wrapper { padding: 16px 12px 24px; }
+            .scale-wrap { width: 100% !important; height: auto !important; }
+            .capture-area { width: 100% !important; padding: 20px 14px 22px !important; }
+            .logo { width: 180px; }
+            h1 { font-size: 20px; margin: 6px 0 14px; }
+            th, td { height: 40px; font-size: 11px; padding: 0 1px; }
+            th:first-child { width: 16%; }
+            .legend-item { font-size: 11px; gap: 5px; }
+            .color { width: 14px; height: 14px; }
+        }
     </style>
 </head>
 <body>
-
 <div class="wrapper">
-    <div class="header">
-        <h1>Stray Kids Shipping Chart</h1>
-        <p>Click any cell to set preference / Click member header to hide row or column</p>
+    <div class="tab-wrap">
+        <button id="tabRps" class="tab-btn active">SKZ Shipping Chart</button>
     </div>
 
-    <div class="capture-area" id="captureArea">
-        <div class="table-wrap">
-            <table id="chartTable"></table>
+    <div id="scaleWrap" class="scale-wrap">
+        <div id="captureArea" class="capture-area">
+            <svg class="logo" viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg">
+                <text x="50%" y="65%" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="65" fill="#bf1c2d" letter-spacing="2">Stray Kids</text>
+            </svg>
+
+            <h1>SKZ Shipping Chart<span id="dateTextRps" class="chart-date"></span></h1>
+
+            <div class="guide-list" id="guideListRps">
+                <p>Select a cell to set preference.</p>
+                <p>Click member name to hide/show entire row or column.</p>
+            </div>
+
+            <div class="table-wrap">
+                <div class="table-nav">
+                    <button id="undoBtn" class="nav-btn" title="Undo" disabled>&#10094;</button>
+                    <button id="redoBtn" class="nav-btn" title="Redo" disabled>&#10095;</button>
+                </div>
+                <table id="chartTable"></table>
+            </div>
+
+            <div class="legend" id="legendRps"></div>
+            <div class="capture-id-bottom">@StrayKids_Chart</div>
         </div>
-        <div class="legend" id="legend"></div>
-        <div class="watermark">SKZ Pairing Matrix • Created with Gemini</div>
     </div>
 
-    <div class="controls">
-        <button class="action-btn primary" id="saveBtn">📥 Save Image</button>
-        <button class="action-btn" id="resetBtn">🔄 Reset All</button>
+    <div class="date-toggle-wrap" id="dateToggleWrap">
+        <label class="date-toggle">
+            <input type="checkbox" id="dateToggle">
+            Show date on image
+        </label>
+        <label class="date-toggle">
+            <input type="checkbox" id="selfPairToggle" checked>
+            Show self-pair name
+        </label>
     </div>
-</div>
 
-<div id="modal" class="modal hidden">
-    <div class="modal-box">
-        <div id="modalTitle" class="modal-title">Select Color</div>
-        <div id="optionGrid" class="option-grid"></div>
-        <button id="closeModal" class="close-btn">Close Window</button>
+    <div class="button-wrap">
+        <button id="saveBtn"><span class="btn-icon">&#8681;</span> Save Image</button>
+        <button id="resetBtn"><span class="btn-icon">&#8635;</span> Reset</button>
+    </div>
+
+    <div id="modal" class="modal hidden">
+        <div class="modal-box">
+            <button id="closeModal" class="close-btn" aria-label="Close">×</button>
+            <div id="modalTitle" class="modal-title"></div>
+            <div id="optionGrid" class="option-grid"></div>
+        </div>
+    </div>
+
+    <div id="saveModal" class="modal hidden">
+        <div class="save-box">
+            <h2>Image Saved!</h2>
+            <p>Below is the preview of your chart.</p>
+            <img id="previewImage" alt="Saved chart preview">
+            <button id="closeSaveModal">OK</button>
+        </div>
     </div>
 </div>
 
 <script>
-const MEMBERS = [
+const MEMBERS_BASE = [
     { id: "bangchan", name: "Bang Chan" },
     { id: "leeknow",  name: "Lee Know" },
     { id: "changbin", name: "Changbin" },
@@ -96,195 +154,261 @@ const MEMBERS = [
 ];
 
 const PAIR_NAMES = {
-    "bangchan-bangchan": "Bang Chan",
-    "bangchan-leeknow": "Banginho",
-    "bangchan-changbin": "ChanBin",
-    "bangchan-hyunjin": "ChanHyun",
-    "bangchan-han": "ChanHan",
-    "bangchan-felix": "ChanLix",
-    "bangchan-seungmin": "ChanMin",
-    "bangchan-ien": "ChanIn",
-
-    "leeknow-bangchan": "MinChan",
-    "leeknow-leeknow": "Lee Know",
-    "leeknow-changbin": "MinBin",
-    "leeknow-hyunjin": "KnowHyun",
-    "leeknow-han": "MinSung",
-    "leeknow-felix": "MinLix",
-    "leeknow-seungmin": "KnowMin",
-    "leeknow-ien": "KnowIn",
-
-    "changbin-bangchan": "BinChan",
-    "changbin-leeknow": "ChangKnow",
-    "changbin-changbin": "Changbin",
-    "changbin-hyunjin": "ChangJin",
-    "changbin-han": "BinSung",
-    "changbin-felix": "ChangLix",
-    "changbin-seungmin": "BinSeung",
-    "changbin-ien": "BinIn",
-
-    "hyunjin-bangchan": "HyunChan",
-    "hyunjin-leeknow": "HyunHo",
-    "hyunjin-changbin": "HyuniBini",
-    "hyunjin-hyunjin": "Hyunjin",
-    "hyunjin-han": "HyunSung",
-    "hyunjin-felix": "HyunLix",
-    "hyunjin-seungmin": "HyunMin",
-    "hyunjin-ien": "HyunIn",
-
-    "han-bangchan": "HanChan",
-    "han-leeknow": "HanKnow",
-    "han-changbin": "HanBin",
-    "han-hyunjin": "HanHyun",
-    "han-han": "HAN",
-    "han-felix": "HanLix",
-    "han-seungmin": "HanSeung",
-    "han-ien": "HanIn",
-
-    "felix-bangchan": "LixChan",
-    "felix-leeknow": "LixKnow",
-    "felix-changbin": "LixBin",
-    "felix-hyunjin": "LixHyun",
-    "felix-han": "LixHan",
-    "felix-felix": "Felix",
-    "felix-seungmin": "LixSeung",
-    "felix-ien": "LixIn",
-
-    "seungmin-bangchan": "SeungChan",
-    "seungmin-leeknow": "SeungKnow",
-    "seungmin-changbin": "SeungBin",
-    "seungmin-hyunjin": "SeungJin",
-    "seungmin-han": "SeungSung",
-    "seungmin-felix": "SeungLix",
-    "seungmin-seungmin": "Seungmin",
-    "seungmin-ien": "SeungIn",
-
-    "ien-bangchan": "JeongChan",
-    "ien-leeknow": "JeongHo",
-    "ien-changbin": "JeongChang",
-    "ien-hyunjin": "YangHyun",
-    "ien-han": "JeongSung",
-    "ien-felix": "JeongLix",
-    "ien-seungmin": "YangSeung",
-    "ien-ien": "I.N"
+    "bangchan-bangchan": "Bang Chan", "bangchan-leeknow": "Banginho", "bangchan-changbin": "ChanBin", "bangchan-hyunjin": "ChanHyun", "bangchan-han": "ChanHan", "bangchan-felix": "ChanLix", "bangchan-seungmin": "ChanMin", "bangchan-ien": "ChanIn",
+    "leeknow-bangchan": "MinChan", "leeknow-leeknow": "Lee Know", "leeknow-changbin": "MinBin", "leeknow-hyunjin": "KnowHyun", "leeknow-han": "MinSung", "leeknow-felix": "MinLix", "leeknow-seungmin": "KnowMin", "leeknow-ien": "KnowIn",
+    "changbin-bangchan": "BinChan", "changbin-leeknow": "ChangKnow", "changbin-changbin": "Changbin", "changbin-hyunjin": "ChangJin", "changbin-han": "BinSung", "changbin-felix": "ChangLix", "changbin-seungmin": "BinSeung", "changbin-ien": "BinIn",
+    "hyunjin-bangchan": "HyunChan", "hyunjin-leeknow": "HyunHo", "hyunjin-changbin": "HyuniBini", "hyunjin-hyunjin": "Hyunjin", "hyunjin-han": "HyunSung", "hyunjin-felix": "HyunLix", "hyunjin-seungmin": "HyunMin", "hyunjin-ien": "HyunIn",
+    "han-bangchan": "HanChan", "han-leeknow": "HanKnow", "han-changbin": "HanBin", "han-hyunjin": "HanHyun", "han-han": "HAN", "han-felix": "HanLix", "han-seungmin": "HanSeung", "han-ien": "HanIn",
+    "felix-bangchan": "LixChan", "felix-leeknow": "LixKnow", "felix-changbin": "LixBin", "felix-hyunjin": "LixHyun", "felix-han": "LixHan", "felix-felix": "Felix", "felix-seungmin": "LixSeung", "felix-ien": "LixIn",
+    "seungmin-bangchan": "SeungChan", "seungmin-leeknow": "SeungKnow", "seungmin-changbin": "SeungBin", "seungmin-hyunjin": "SeungJin", "seungmin-han": "SeungSung", "seungmin-felix": "SeungLix", "seungmin-seungmin": "Seungmin", "seungmin-ien": "SeungIn",
+    "ien-bangchan": "JeongChan", "ien-leeknow": "JeongHo", "ien-changbin": "JeongChang", "ien-hyunjin": "YangHyun", "ien-han": "JeongSung", "ien-felix": "JeongLix", "ien-seungmin": "YangSeung", "ien-ien": "I.N"
 };
 
-const OPTIONS = [
-    { name: "OTP", color: "#ff80ab" },
-    { name: "Like", color: "#ffab91" },
-    { name: "Soft spot", color: "#ffe082" },
-    { name: "Curious", color: "#a5d6a7" },
-    { name: "Neutral", color: "#80deea" },
-    { name: "Dislike", color: "#90caf9" },
-    { name: "Avoid", color: "#b0bec5" }
+const options = [
+    { name: "OTP", color: "#f7cde0" },
+    { name: "Like", color: "#ffafaf" },
+    { name: "Favorite", color: "#fcee90" },
+    { name: "Interest", color: "#baebbb" },
+    { name: "Neutral", color: "#ffffff" },
+    { name: "Dislike", color: "#bfeefd" },
+    { name: "Avoid", color: "#999999" }
 ];
 
-let chartData = {};
-let currentKey = null;
+let selfPairVisible = true;
+let hiddenRows = new Set();
+let hiddenCols = new Set();
+let saveData = {};
+let historyStack = [];
+let redoStack = [];
+let currentTarget = null;
 
-function renderTable() {
-    const table = document.getElementById("chartTable");
-    table.innerHTML = "";
+const table = document.getElementById("chartTable");
+const modal = document.getElementById("modal");
+const modalTitle = document.getElementById("modalTitle");
+const optionGrid = document.getElementById("optionGrid");
+const closeModal = document.getElementById("closeModal");
+const saveBtn = document.getElementById("saveBtn");
+const resetBtn = document.getElementById("resetBtn");
+const legendRps = document.getElementById("legendRps");
+const dateToggle = document.getElementById("dateToggle");
+const dateTextRps = document.getElementById("dateTextRps");
+const selfPairToggle = document.getElementById("selfPairToggle");
+const undoBtn = document.getElementById("undoBtn");
+const redoBtn = document.getElementById("redoBtn");
+const saveModal = document.getElementById("saveModal");
+const previewImage = document.getElementById("previewImage");
+const closeSaveModal = document.getElementById("closeSaveModal");
+const captureAreaRps = document.getElementById("captureArea");
+const scaleWrap = document.getElementById("scaleWrap");
 
-    const headRow = document.createElement("tr");
-    headRow.appendChild(document.createElement("th"));
+function getPairName(rowId, colId) {
+    return PAIR_NAMES[`${rowId}-${colId}`] || "";
+}
 
-    MEMBERS.forEach(m => {
-        const th = document.createElement("th");
-        th.textContent = m.name;
-        headRow.appendChild(th);
+function getDisplayPairName(rowId, colId) {
+    if (rowId === colId && !selfPairVisible) return "-";
+    return getPairName(rowId, colId);
+}
+
+function renderLegend() {
+    legendRps.innerHTML = "";
+    options.forEach(opt => {
+        const isNone = opt.color.toLowerCase() === "#ffffff";
+        const item = document.createElement("div");
+        item.className = "legend-item";
+        item.innerHTML = `<span class="color${isNone ? " dashed" : ""}" style="background:${opt.color}"></span>${opt.name}`;
+        legendRps.appendChild(item);
     });
-    table.appendChild(headRow);
+}
 
-    MEMBERS.forEach(r => {
+function updateDateDisplay() {
+    if (dateToggle.checked) {
+        const now = new Date();
+        const yy = String(now.getFullYear()).slice(-2);
+        const mm = String(now.getMonth() + 1).padStart(2, "0");
+        const dd = String(now.getDate()).padStart(2, "0");
+        dateTextRps.textContent = ` ${yy}${mm}${dd} ver.`;
+    } else {
+        dateTextRps.textContent = "";
+    }
+}
+
+function createTable() {
+    table.innerHTML = "";
+    const visibleCols = MEMBERS_BASE.filter(m => !hiddenCols.has(m.id));
+    const visibleRows = MEMBERS_BASE.filter(m => !hiddenRows.has(m.id));
+
+    const head = document.createElement("tr");
+    const empty = document.createElement("th");
+    head.appendChild(empty);
+
+    visibleCols.forEach(member => {
+        const th = document.createElement("th");
+        th.textContent = member.name;
+        th.className = "clickable-header";
+        th.onclick = () => { currentTarget = { type: "col", id: member.id }; openModal(member.name); };
+        head.appendChild(th);
+    });
+    table.appendChild(head);
+
+    visibleRows.forEach(rowMember => {
         const tr = document.createElement("tr");
-        const rTh = document.createElement("th");
-        rTh.textContent = r.name;
-        tr.appendChild(rTh);
+        const rowHead = document.createElement("th");
+        rowHead.textContent = rowMember.name;
+        rowHead.className = "clickable-header";
+        rowHead.onclick = () => { currentTarget = { type: "row", id: rowMember.id }; openModal(rowMember.name); };
+        tr.appendChild(rowHead);
 
-        MEMBERS.forEach(c => {
+        visibleCols.forEach(colMember => {
             const td = document.createElement("td");
-            const key = `${r.id}-${c.id}`;
-            td.textContent = PAIR_NAMES[key] || "";
-            if (r.id === c.id) td.classList.add("self-pair");
+            const key = `${rowMember.id}-${colMember.id}`;
+            td.dataset.key = key;
+            td.textContent = getDisplayPairName(rowMember.id, colMember.id);
+            if (saveData[key]) td.style.backgroundColor = saveData[key];
 
-            if (chartData[key]) {
-                td.style.backgroundColor = chartData[key];
-                td.style.color = "#000";
-            }
-
-            td.onclick = () => openModal(key, PAIR_NAMES[key]);
+            td.onclick = () => {
+                currentTarget = { type: "cell", td, rowId: rowMember.id, colId: colMember.id };
+                openModal(getPairName(rowMember.id, colMember.id));
+            };
             tr.appendChild(td);
         });
         table.appendChild(tr);
     });
 }
 
-function renderLegend() {
-    const legend = document.getElementById("legend");
-    legend.innerHTML = "";
-    OPTIONS.forEach(opt => {
+function openModal(titleText) {
+    modalTitle.textContent = titleText;
+    optionGrid.innerHTML = "";
+
+    options.forEach(opt => {
         const item = document.createElement("div");
-        item.className = "legend-item";
-        item.innerHTML = `<span class="color-dot" style="background:${opt.color}"></span>${opt.name}`;
-        legend.appendChild(item);
-    });
-}
-
-function openModal(key, title) {
-    currentKey = key;
-    document.getElementById("modalTitle").textContent = title;
-    const grid = document.getElementById("optionGrid");
-    grid.innerHTML = "";
-
-    OPTIONS.forEach(opt => {
-        const card = document.createElement("div");
-        card.className = "option-card";
-        card.innerHTML = `<span class="color-dot" style="background:${opt.color}"></span><span>${opt.name}</span>`;
-        card.onclick = () => {
-            chartData[currentKey] = opt.color;
-            renderTable();
-            closeModal();
-        };
-        grid.appendChild(card);
+        item.className = "option-card";
+        const isNone = opt.color.toLowerCase() === "#ffffff";
+        item.innerHTML = `
+            <span class="option-dot${isNone ? " dashed" : ""}" style="background:${opt.color}"></span>
+            <span class="option-label">${opt.name}</span>
+        `;
+        item.onclick = () => applySelection(opt.color);
+        optionGrid.appendChild(item);
     });
 
-    const clearCard = document.createElement("div");
-    clearCard.className = "option-card";
-    clearCard.innerHTML = `<span style="font-size:18px;">🗑️</span><span>Clear</span>`;
-    clearCard.onclick = () => {
-        delete chartData[currentKey];
-        renderTable();
-        closeModal();
-    };
-    grid.appendChild(clearCard);
+    const clearItem = document.createElement("div");
+    clearItem.className = "option-card clear-card";
+    clearItem.innerHTML = `<span class="option-dot">🗑️</span><span class="option-label">Clear</span>`;
+    clearItem.onclick = () => applySelection(null);
+    optionGrid.appendChild(clearItem);
 
-    document.getElementById("modal").classList.remove("hidden");
+    modal.classList.remove("hidden");
 }
 
-function closeModal() {
-    document.getElementById("modal").classList.add("hidden");
+function pushHistory() {
+    historyStack.push(JSON.stringify(saveData));
+    if (historyStack.length > 50) historyStack.shift();
+    redoStack = [];
+    updateNavButtons();
 }
 
-document.getElementById("closeModal").onclick = closeModal;
-document.getElementById("resetBtn").onclick = () => {
+function updateNavButtons() {
+    undoBtn.disabled = historyStack.length === 0;
+    redoBtn.disabled = redoStack.length === 0;
+}
+
+function applySelection(color) {
+    if (!currentTarget) return;
+    pushHistory();
+
+    if (currentTarget.type === "cell") {
+        const key = `${currentTarget.rowId}-${currentTarget.colId}`;
+        setCellColor(currentTarget.td, key, color);
+    } else if (currentTarget.type === "row") {
+        MEMBERS_BASE.forEach(colMember => {
+            const key = `${currentTarget.id}-${colMember.id}`;
+            const td = table.querySelector(`td[data-key="${key}"]`);
+            setCellColor(td, key, color);
+        });
+    } else if (currentTarget.type === "col") {
+        MEMBERS_BASE.forEach(rowMember => {
+            const key = `${rowMember.id}-${currentTarget.id}`;
+            const td = table.querySelector(`td[data-key="${key}"]`);
+            setCellColor(td, key, color);
+        });
+    }
+    modal.classList.add("hidden");
+}
+
+function setCellColor(td, key, color) {
+    if (color) {
+        if (td) td.style.backgroundColor = color;
+        saveData[key] = color;
+    } else {
+        if (td) td.style.backgroundColor = "";
+        delete saveData[key];
+    }
+}
+
+undoBtn.onclick = () => {
+    if (historyStack.length === 0) return;
+    redoStack.push(JSON.stringify(saveData));
+    saveData = JSON.parse(historyStack.pop());
+    createTable();
+    updateNavButtons();
+};
+
+redoBtn.onclick = () => {
+    if (redoStack.length === 0) return;
+    historyStack.push(JSON.stringify(saveData));
+    saveData = JSON.parse(redoStack.pop());
+    createTable();
+    updateNavButtons();
+};
+
+dateToggle.onchange = updateDateDisplay;
+selfPairToggle.onchange = () => { selfPairVisible = selfPairToggle.checked; createTable(); };
+closeModal.onclick = () => modal.classList.add("hidden");
+closeSaveModal.onclick = () => saveModal.classList.add("hidden");
+
+resetBtn.onclick = () => {
     if (confirm("Reset all selections?")) {
-        chartData = {};
-        renderTable();
+        saveData = {};
+        historyStack = [];
+        redoStack = [];
+        updateNavButtons();
+        createTable();
     }
 };
 
-document.getElementById("saveBtn").onclick = async () => {
-    const area = document.getElementById("captureArea");
-    const canvas = await html2canvas(area, { backgroundColor: "#14171d", scale: 3 });
+saveBtn.onclick = async () => {
+    const canvas = await html2canvas(captureAreaRps, { backgroundColor: "#ffffff", scale: 3 });
+    const url = canvas.toDataURL("image/png");
+    previewImage.src = url;
+    saveModal.classList.remove("hidden");
+
     const link = document.createElement("a");
+    link.href = url;
     link.download = "SKZ_Shipping_Chart.png";
-    link.href = canvas.toDataURL("image/png");
     link.click();
 };
 
-renderTable();
+function fitCaptureArea() {
+    const screenWidth = Math.min(window.innerWidth, document.documentElement.clientWidth);
+    if (screenWidth <= 768) {
+        captureAreaRps.style.transform = "none";
+        scaleWrap.style.width = "";
+        scaleWrap.style.height = "";
+        return;
+    }
+    const scale = Math.min(1, screenWidth / 1680);
+    captureAreaRps.style.transformOrigin = "top left";
+    captureAreaRps.style.transform = `scale(${scale})`;
+    scaleWrap.style.width = `${1680 * scale}px`;
+    scaleWrap.style.height = `${captureAreaRps.scrollHeight * scale}px`;
+}
+
+createTable();
 renderLegend();
+updateDateDisplay();
+fitCaptureArea();
+window.onresize = fitCaptureArea;
 </script>
 </body>
 </html>
